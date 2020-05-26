@@ -18,7 +18,7 @@ const {
 export default function Login({navigation}){
 
     const handleLoginPress = async () => {
-        
+       
         try{
 
             const {user,accessToken,type} = await Google.logInAsync({
@@ -42,6 +42,7 @@ export default function Login({navigation}){
         }catch (e) {
             alert('Error: '+e);
         }
+
 
     };
 
