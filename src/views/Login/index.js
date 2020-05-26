@@ -12,8 +12,8 @@ export default function Login(){
 
     const handleLoginPress = async () => {
         const result = await Google.logInAsync({
-            androidClientId: '633651205087-m5blhvajo3c097ho87chfcfigqs9668r.apps.googleusercontent.com',
-            androidStandaloneAppClientId: '633651205087-m5blhvajo3c097ho87chfcfigqs9668r.apps.googleusercontent.com'
+            androidClientId: 'ur key',
+            androidStandaloneAppClientId: 'ur key'
         }); 
 
         console.log("answer: ");
