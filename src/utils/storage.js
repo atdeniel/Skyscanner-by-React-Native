@@ -2,7 +2,8 @@ import { AsyncStorage } from 'react-native';
 
 export const saveItem = async (keyName, keyValue) => {
     try {
-        return await AsyncStorage.setItem(keyName, keyValue); //es una promesa
+        await AsyncStorage.setItem(keyName, keyValue); //es una promesa
+        return true;
     } catch (e) {
         return false;
     }
@@ -11,7 +12,8 @@ export const saveItem = async (keyName, keyValue) => {
 
 export const getItem = async (keyName) => {
     try {
-        return await AsyncStorage.getItem(keyName); //es una promesa
+        await AsyncStorage.getItem(keyName); //es una promesa
+        return true;
     } catch (e) {
         return false;
     }

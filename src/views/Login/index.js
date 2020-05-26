@@ -5,7 +5,7 @@ import {Container, Content, Text, Grid, Button} from 'native-base' //el text usa
 
 import styles from './style';
 import { saveItem } from '../../utils/storage'
-import {ACCESS_TOKEN,USER_INFO,GOOGLE_SUCCESS_MESSAGE} from '../../conts/index'
+import {ACCESS_TOKEN,USER_INFO,GOOGLE_SUCCESS_MESSAGE, HOME} from '../../conts/index'
 import enviroment from '../../../env'
 
 const GOOGLE_IMAGE = require('../../../assets/google-logo-icon.png');
@@ -15,7 +15,7 @@ const {
 } = enviroment();
 
 //arrow function es anonima
-export default function Login(){
+export default function Login({navigation}){
 
     const handleLoginPress = async () => {
         
@@ -30,7 +30,13 @@ export default function Login(){
                 const userResult = await saveItem(USER_INFO, JSON.stringify(user) );
                 const tokenResult = await saveItem(ACCESS_TOKEN, accessToken);
                 //el await es para que espere el resultado de save item :)
-                console.log("funciono el login: "+userResult);
+
+                if (userResult && tokenResult){
+                    navigation.navigate(HOME);
+                }
+                else{
+                    alert('Error al iniciar sesion');
+                }
             }
 
         }catch (e) {
