@@ -1,12 +1,24 @@
 import React, { useEffect } from 'react'
 import {Spinner, Container, Content, Grid} from 'native-base'
 import styles from './style';
-import {LOGIN} from '../../conts'
+import {LOGIN, ACCESS_TOKEN, HOME} from '../../conts'
+import { getItem } from '../../utils/storage';
 export default ({navigation}) => {
     
     useEffect(() => {
-        navigation.navigate(LOGIN); 
+        redirect();
     });
+
+    const redirect = async () =>{
+        const token = await getItem(ACCESS_TOKEN);
+
+        let route = LOGIN;
+        if (token){
+            navigation.navigate(HOME); 
+        }
+
+        navigation.navigate(route); 
+    }
 
     return (
         <Container>

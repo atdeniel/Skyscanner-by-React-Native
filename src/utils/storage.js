@@ -12,8 +12,7 @@ export const saveItem = async (keyName, keyValue) => {
 
 export const getItem = async (keyName) => {
     try {
-        await AsyncStorage.getItem(keyName); //es una promesa
-        return true;
+        return await AsyncStorage.getItem(keyName); //es una promesa
     } catch (e) {
         return false;
     }
