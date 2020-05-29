@@ -1,5 +1,6 @@
 import {all} from 'redux-saga/effects'
+import itineraries from './itineraries'
 
 export default function* rootSaga(){ //funcion generdora?
-   // yield all ([flights(), demo() ]); //escucho todo
+   yield all ([itineraries() ]); //escucho todo
 }

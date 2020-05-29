@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Item, Label, Icon, DatePicker, Picker} from 'native-base';
+import { Form, Input, Item, Label, Icon, DatePicker, Picker, Button, Text} from 'native-base';
+import styles from "./style";
 
 export default function SearchComponent(props){
     const [originPlace, setOriginPlace] = useState('');
@@ -20,28 +21,43 @@ export default function SearchComponent(props){
     const handleAdultsChange = adults => setAdults(adults)
     const handleChildrenChange = children => setChildren(children)
 
+    const searchButtonDisabled = () =>{
+        if(!originPlace ||
+            !destinationPlace ||
+            !outboundDate || 
+            !adults
+        ){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     return(
-        <Form>
+        <Form styles={styles.form}>
             <Item>
                 <Icon name="ios-home"></Icon>
                 <Input  placeholder="Origen" value={originPlace} 
+                style={styles.input}
                 onChangeText={handleOriginPlaceChange}></Input>
             </Item>
             <Item>
                 <Icon name="ios-airplane"></Icon>
                 <Input  placeholder="Destino" value={destinationPlace}
+                style={styles.input}
                 onChangeText={handleDestinationPlaceChange}
                 ></Input>
             </Item>
-            <Item>
+            <Item style={styles.dateContainer}>
                 <Icon ios="ios-calendar" android="md-calendar"></Icon>
                 <DatePicker placeHolderText="Ida" onDateChange={handleOutboundDateChange}></DatePicker>
-            </Item>
-            <Item>
+
                 <Icon ios="ios-calendar" android="md-calendar"></Icon>
                 <DatePicker placeHolderText="Regreso (opional)" onDateChange={handleInboundDateChange}></DatePicker>
             </Item>
-            <Item>
+            <Item style={styles.pickerContainer}>
+                <Icon name="person"></Icon>
                 <Picker
                     selectedValue={adults}
                     onValueChange={handleAdultsChange}
@@ -53,9 +69,8 @@ export default function SearchComponent(props){
                     <Picker.Item label="4" value="4"></Picker.Item>
                     <Picker.Item label="5" value="5"></Picker.Item>
                 </Picker>
+                
                 <Icon name="person"></Icon>
-            </Item>
-            <Item>
                 <Picker
                     selectedValue={children}
                     onValueChange={handleChildrenChange}
@@ -67,8 +82,16 @@ export default function SearchComponent(props){
                     <Picker.Item label="4" value="4"></Picker.Item>
                     <Picker.Item label="5" value="5"></Picker.Item>
                 </Picker>
-                <Icon name="person"></Icon>
+                
             </Item>
+
+            <Button style={styles.searchButton} disabled={searchButtonDisabled()}>
+                <Icon name="search" style={styles.searchIcon}></Icon>
+                <Text style={styles.searchButtonText}>
+                    Buscar
+                </Text>
+            </Button>
+
         </Form>
     );
 }
