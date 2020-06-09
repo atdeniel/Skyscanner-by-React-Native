@@ -1,0 +1,4 @@
+
+export const GET_LOCATIONS_START = '@udemy:GET_LOCATION_START';
+export const GET_LOCATION_SUCCESS = '@udemy:GET_LOCATION_SUCCESS';
+export const GET_LOCATION_ERROR = '@udemy:GET_LOCATION_ERROR';

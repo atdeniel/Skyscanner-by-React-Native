@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Item, Label, Icon, DatePicker, Picker, Button, Text} from 'native-base';
+import {useDispatch, connect} from 'react-redux';
 import styles from "./style";
+import { getLocations } from '../../redux/actions/itineraries';
 
 export default function SearchComponent(props){
+
+    const dispatch = useDispatch();
+
+    
+
     const [originPlace, setOriginPlace] = useState('');
     const [destinationPlace, setDestinationPlace] = useState('');
 
@@ -34,19 +41,39 @@ export default function SearchComponent(props){
         }
     }
 
+    const handleSearchButtonClick = () =>{
+        //dispatch(getLocations());
+    };
+
+    handleOriginKeyPress = ({nativeEvent}) => {
+        if (originPlace.length > 2){
+            dispatch(getLocations({query:originPlace}))
+        }
+
+    };
+
+    handleDestinationKeyPress = ({nativeEvent}) => {
+        if (destinationPlace.length > 2){
+            dispatch(getLocations({query:destinationPlace}))
+        }
+    };
+
     return(
         <Form styles={styles.form}>
             <Item>
                 <Icon name="ios-home"></Icon>
                 <Input  placeholder="Origen" value={originPlace} 
                 style={styles.input}
-                onChangeText={handleOriginPlaceChange}></Input>
+                onChangeText={handleOriginPlaceChange}
+                onKeyPress={handleOriginKeyPress}
+                ></Input>
             </Item>
             <Item>
                 <Icon name="ios-airplane"></Icon>
                 <Input  placeholder="Destino" value={destinationPlace}
                 style={styles.input}
                 onChangeText={handleDestinationPlaceChange}
+                onKeyPress={handleDestinationKeyPress}
                 ></Input>
             </Item>
             <Item style={styles.dateContainer}>
@@ -85,7 +112,7 @@ export default function SearchComponent(props){
                 
             </Item>
 
-            <Button style={styles.searchButton} disabled={searchButtonDisabled()}>
+            <Button style={styles.searchButton} disabled={searchButtonDisabled()} onPress={handleSearchButtonClick}>
                 <Icon name="search" style={styles.searchIcon}></Icon>
                 <Text style={styles.searchButtonText}>
                     Buscar

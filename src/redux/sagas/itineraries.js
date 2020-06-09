@@ -1,13 +1,20 @@
 import {GET_LOCATION_START,
     GET_LOCATION_SUCCESS,
     GET_LOCATION_ERROR} from '../../conts/actionTypes';
-import {takeLatest} from 'redux-saga/effects';
+import {takeLatest, call} from 'redux-saga/effects';
+import apiCall from "../api";
+
+const country = 'CL';
+const currency = 'USD';
+const locale = 'en-US'
 
 export function* getLocations({payload}){
     try {
-        
+        const url = '/autosuggest/v1.0/${country}/${currency}/${locale}/?query=${payload.query}';
+        const method = 'GET';
+        yield call(apiCall, url, method)
     } catch (error) {
-        
+        console.log("error")
     }
 }
 
