@@ -1,6 +1,6 @@
 import {GET_LOCATION_START,
-    GET_LOCATION_SUCCESS,
-    GET_LOCATION_ERROR} from '../../conts/actionTypes';
+    GET_LOCATIONS_SUCCESS,
+    GET_LOCATIONS_ERROR} from '../../conts/actionTypes';
 import {takeLatest, call} from 'redux-saga/effects';
 import apiCall from "../api";
 

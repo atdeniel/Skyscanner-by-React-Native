@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Item, Label, Icon, DatePicker, Picker, Button, Text} from 'native-base';
-import {useDispatch, connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styles from "./style";
 import { getLocations } from '../../redux/actions/itineraries';
 
@@ -59,7 +59,7 @@ export default function SearchComponent(props){
     };
 
     return(
-        <Form styles={styles.form}>
+        <Form style={styles.form}>
             <Item>
                 <Icon name="ios-home"></Icon>
                 <Input  placeholder="Origen" value={originPlace} 
