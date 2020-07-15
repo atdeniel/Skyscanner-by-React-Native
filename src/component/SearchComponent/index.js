@@ -3,15 +3,19 @@ import { Form, Input, Item, Label, Icon, DatePicker, Picker, Button, Text} from 
 import {useDispatch, useSelector} from 'react-redux';
 import styles from "./style";
 import { getLocations } from '../../redux/actions/itineraries';
+import FixedList from "../fixedList";
 
 export default function SearchComponent(props){
 
     const dispatch = useDispatch();
+    const places = useSelector((state) => {
+        state.itineraries.places
+    });  
 
-    
+    console.log(places);
 
-    const [originPlace, setOriginPlace] = useState('');
-    const [destinationPlace, setDestinationPlace] = useState('');
+    const [originPlace, setOriginPlace] = useState({PlaceName:""});
+    const [destinationPlace, setDestinationPlace] = useState({PlaceName:""});
 
     const [outboundDate, setOutboundDate] = useState();
     const [inboundDate, setInboundDate] = useState();
@@ -19,8 +23,11 @@ export default function SearchComponent(props){
     const [adults, setAdults] = useState("0");
     const [children, setChildren] = useState("0");
 
-    const handleOriginPlaceChange = text => setOriginPlace(text);
-    const handleDestinationPlaceChange = text => setDestinationPlace(text);
+    const [showOriginPlaceList, setShowOriginPlaceList] = useState(false);
+    const [showDestinationPlaceList, setShowDestinationPlaceList] = useState(false);
+
+    const handleOriginPlaceChange = text => setOriginPlace({PlaceName: text});
+    const handleDestinationPlaceChange = text => setDestinationPlace({PlaceName: text});
 
     const handleOutboundDateChange = date => setOutboundDate(date);
     const handleInboundDateChange = date => setInboundDate(date);
@@ -42,40 +49,62 @@ export default function SearchComponent(props){
     }
 
     const handleSearchButtonClick = () =>{
-        //dispatch(getLocations());
+        dispatch(getLocations());
     };
 
-    handleOriginKeyPress = ({nativeEvent}) => {
-        if (originPlace.length > 2){
-            dispatch(getLocations({query:originPlace}))
+    const handleOriginKeyPress = ({nativeEvent}) => {
+        if (originPlace.PlaceName.length > 2){
+            dispatch(getLocations({query:originPlace.PlaceName}))
+            setShowOriginPlaceList(true);
         }
 
     };
 
-    handleDestinationKeyPress = ({nativeEvent}) => {
-        if (destinationPlace.length > 2){
-            dispatch(getLocations({query:destinationPlace}))
+    const handleDestinationKeyPress = ({nativeEvent}) => {
+        if (destinationPlace.PlaceName.length > 2){
+            dispatch(getLocations({query:destinationPlace.PlaceName}))
+            setShowDestinationPlaceList(true);
         }
+    };
+
+    const handleOriginPlacePress = (placesSelected) =>{
+        setOriginPlace(placeSelected);
+        setShowOriginPlaceList(false);
+    };
+
+    const handleDestinationPlacePress = (placesSelected) =>{
+        setDestinationPlace(placeSelected);
+        setShowDestinationPlaceList(false);
     };
 
     return(
         <Form style={styles.form}>
             <Item>
                 <Icon name="ios-home"></Icon>
-                <Input  placeholder="Origen" value={originPlace} 
+                <Input  placeholder="Origen" value={originPlace.PlaceName} 
                 style={styles.input}
                 onChangeText={handleOriginPlaceChange}
                 onKeyPress={handleOriginKeyPress}
                 ></Input>
             </Item>
+            {showOriginPlaceList && 
+            <FixedList places={places} 
+                containerStyle={{top:40}} 
+                onItemPress={handleOriginPlacePress}>
+            </FixedList>}
             <Item>
                 <Icon name="ios-airplane"></Icon>
-                <Input  placeholder="Destino" value={destinationPlace}
+                <Input  placeholder="Destino" value={destinationPlace.PlaceName}
                 style={styles.input}
                 onChangeText={handleDestinationPlaceChange}
                 onKeyPress={handleDestinationKeyPress}
                 ></Input>
             </Item>
+            {showDestinationPlaceList && 
+            <FixedList places={places}
+                containerStyle={{top:120}}
+                onItemPress={handleDestinationPlacePress}>
+            </FixedList>}
             <Item style={styles.dateContainer}>
                 <Icon ios="ios-calendar" android="md-calendar"></Icon>
                 <DatePicker placeHolderText="Ida" onDateChange={handleOutboundDateChange}></DatePicker>
